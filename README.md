@@ -16,7 +16,103 @@ who are very smart.
 [snugug]: https://github.com/Snugug/
 [canarymason]: https://github.com/canarymason/
 
-## License
+List of Things
+--------------
+
+### Background
+
+**Functions:**
+- `convert-gradient-angle($deg)`:
+- `convert-linear($angle, $details...)`:
+- `stripes($position, $colors)`
+- `get-palette($color [, $tints, $shades])`
+
+**Mixins:**
+- `gradient-background-image($gradient...)`:
+- `palette($color [, $tints, $shades])`
+
+### Color
+
+*The idea of color-stacks comes from [toolkit][],
+though I've made some alterations to fit into my own process.*
+
+**Settings**:
+- `$default-amounts  : 20% 40% 60% 70% 80%  !default;`
+- `$default-tints    : $default-amounts     !default;`
+- `$default-shades   : $default-amounts     !default;`
+
+**Functions:**
+- `color-stack($main, $second [, $amounts])`
+- `tint-stack($color [, $amounts])`
+- `shade-stack($color [, $amounts])`
+- `color($color [, $alpha, $tints, $shades])`
+
+### Math
+
+**Functions:**
+- `mod($dividend, $divisor)`
+
+### Media
+
+*These are also adapted from [toolkit][].*
+
+**Settings:**
+- `$default-fluid-width           : max-width 100%  !default;`
+- `$default-fluid-elements        : 'img, video'    !default;`
+- `$default-fluid-ratio           : 16/9            !default;`
+- `$default-fluid-ratio-width     : 100%            !default;`
+- `$default-fluid-ratio-children  : '*'             !default;`
+
+**Mixins:**
+- `fluid-media([$width, $elements])`
+- `fluid-ratio([$ratio, $width, $children])`
+
+### Pseudo-Elements
+
+**Mixins:**
+- `@include before($content)`
+- `@include after($content)`
+- `@include wrap($content)`
+
+### Rhythm
+
+**Functions:**
+- `px-to-rhythm($px [, $from, $round])`
+- `rhythm-image($image [, $from, $round])`
+
+### Sass Lists
+
+**Functions:**
+- `reverse($list)`
+- `remove-duplicates($list)`
+- `filter($list, $target)`
+
+### Tabs
+
+**Settings:**
+- `$default-checked-selector : ':checked'      !default;`
+- `$default-nested-selectors : null            !default;`
+- `$toggle-attribute         : id              !default;`
+- `$title-attribute          : for             !default;`
+- `$content-attribute        : class           !default;`
+
+**Mixins:**
+- `@include tab-defaults`
+- `@include make-tabs($slugs [, $nested, $checked])`
+
+### Type
+
+**Settings:**
+- `$default-dropcap-size           : $base-font-size * 2   !default;`
+- `$default-dropcap-lines          : false                 !default;`
+- `$default-dropcap-padding        : null                  !default;`
+- `$default-dropcap-font-family    : null                  !default;`
+
+**Mixins:**
+- `dropcap([$size, $lines, $padding, $from-size]) { @content }`
+
+License
+-------
 
 Copyright © Eric Meyer.
 

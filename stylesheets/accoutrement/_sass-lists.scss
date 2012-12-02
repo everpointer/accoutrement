@@ -26,7 +26,7 @@
 
 // Return a list with specific items removed
 //
-// remove-duplicates($list, $target)
+// filter($list, $target)
 // - $list    : The list to filter.
 // - $target  : An item to be removed from the list.
 @function filter($list, $target) {

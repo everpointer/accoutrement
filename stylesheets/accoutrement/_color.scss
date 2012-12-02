@@ -1,10 +1,10 @@
 // ----------------------------------------------------------------------------
 // Color Stacks
 
-// Set the default mixing intervals for use in color stacks
-$default-amounts  : 20% 40% 60% 70% 80%;
-$default-tints    : $default-amounts;
-$default-shades   : $default-amounts;
+// Set the default mixing intervals for use in color stacks.
+$default-amounts  : 20% 40% 60% 70% 80%     !default;
+$default-tints    : $default-amounts        !default;
+$default-shades   : $default-amounts        !default;
 
 // Returns a list of mixed colors at given intervals
 // based on two initial source colors.
@@ -12,7 +12,7 @@ $default-shades   : $default-amounts;
 // color-stack($main, $second [, $amounts])
 // - $main    : The main color this stack is based on.
 // - $second  : The color to be mixed in at varrying amounts.
-// - $amounts : Optional list of percentage mix intervals;
+// - $amounts : Optional list of percentage mix intervals.
 @function color-stack(
   $main,
   $second,

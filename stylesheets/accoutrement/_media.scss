@@ -2,7 +2,7 @@
 // Fluid Media
 
 // Default property-value pair for setting fluid width.
-$default-fluid-width    : max-width 100%;
+$default-fluid-width    : max-width 100%  !default;
 
 // Default list of elements for the fluid-media mixin.
 $default-fluid-elements : 'img, video'    !default;
