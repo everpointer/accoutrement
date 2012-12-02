@@ -1,0 +1,116 @@
+// ----------------------------------------------------------------------------
+// Imports
+
+@import 'sass-lists';
+@import 'color';
+
+// ----------------------------------------------------------------------------
+// Temporary gradient fixes
+
+// Return the convert angle or position for a css gradient using either syntax
+//
+// convert-gradient-angle($deg)
+// - $deg : The angle or position to convert.
+//          - Whichever syntax you pass, the other will be returned.
+@function convert-gradient-angle(
+  $deg
+) {
+  @if type-of($deg) == 'number' {
+    @return mod(abs($deg - 450), 360deg);
+  } @else {
+    $direction: compact();
+    @if nth($deg,1) == 'to' {
+      @if length($deg) < 2 {
+        $direction: top;
+        @warn "no direction given for 'to'. Using 'to bottom' as default.";
+      } @else { $direction: opposite-position(nth($deg,2)); }
+      @if length($deg) > 2 { $direction: append($direction, opposite-position(nth($deg,3)), space);}
+    } @else {
+      $direction: append($direction, to, space);
+      @each $pos in $deg { $direction: append($direction, opposite-position($pos), space); }
+    }
+    @return $direction;
+  }
+}
+
+// Return a linear gradient converted between the old and new syntax
+//
+// convert-linear($angle, $details...)
+// - $angle       : The angle or position to be converted.
+// - $details...  : Color-stops and other details that don't require conversion.
+@function convert-gradient(
+  $angle,
+  $details...
+) {
+  @return linear-gradient(convert-gradient-angle($angle), $details...);
+}
+
+// Create a single gradient background image.
+// Layered backgrounds require a bit more finess than mixins provide.
+//
+// @include gradient-background-image($gradient...)
+// - $gradient: A list of gradient features (position/angle, color-stops, etc.)
+@mixin gradient-background-image(
+  $gradient...
+) {
+  @include background-image(convert-gradient($gradient...));
+  background-image: linear-gradient($gradient...);
+}
+
+// ----------------------------------------------------------------------------
+// Stripes
+
+// Returns a striped gradient for use anywhere gradients are accepted.
+//
+// stripes($position, $colors)
+// - $position: the starting position or angle of the gradient.
+// - $colors: a list of all the colors to be used.
+@function stripes(
+  $position,
+  $colors
+) {
+  $colors: if(type-of($colors) != 'list', compact($colors), $colors);
+  $gradient: compact();
+  $width: 100% / length($colors);
+
+  @for $i from 1 through length($colors) {
+    $pop: nth($colors,$i);
+    $new: $pop ($width * ($i - 1)), $pop ($width * $i);
+    $gradient: join($gradient, $new, comma);
+  }
+
+  @return linear-gradient($position, $gradient);
+}
+
+// ----------------------------------------------------------------------------
+// Color Palettes
+
+// Returns a full list of tinted and shaded variations on a color.
+//
+// get-palette($color [, $tints, $shades])
+// - $color   : The color that your palette stack will be based around.
+// - $tints   : Optional list of percentage tint amounts.
+// - $shades  : Optional list of percentage shade amounts.
+@function get-palette(
+  $color,
+  $tints: $default-tints,
+  $shades: $default-shades
+) {
+  $tint-stack: tint-stack($color, $tints);
+  $shade-stack: shade-stack($color, $shades);
+  @return remove-duplicates(join(reverse($tint-stack), $shade-stack));
+}
+
+// Creates a background gradient color palette based on a given color
+//
+// palette($color [, $tints, $shades])
+// - $color   : The color that your palette gradient will be based around.
+// - $tints   : Optional list of percentage tint amounts.
+// - $shades  : Optional list of percentage shade amounts.
+@function palette(
+  $color,
+  $tints: $default-tints,
+  $shades: $default-shades
+) {
+  @return stripes(left,get-palette($color, $tints, $shades));
+}

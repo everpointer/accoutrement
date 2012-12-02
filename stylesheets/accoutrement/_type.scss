@@ -1,0 +1,41 @@
+// ----------------------------------------------------------------------------
+// Typography
+
+// @private base settings
+$base-font-size         : 16px !default;
+
+// The default padding on a dropcap letter
+$default-dropcap-padding      : null;
+
+// The default font settings (null == inherit)
+$default-dropcap-font-family    : null;
+$default-dropcap-font-weight    : null;
+$default-dropcap-font-style     : null;
+$default-dropcap-font-variant   : null;
+$default-dropcap-text-transform : null;
+
+// Creates a dropcap using the :first-letter selector
+//
+// dropcap([$size, $lines, $padding, $from-size]) { @content }
+// - $size        : Optional font-size of your dropcap.
+// - $lines       : Optional lines of rhythm for the dropcap line-height.
+// - $padding     : Optional padding around the dropcap.
+// - $from-size   : Optional context font size, if using relative sizing.
+// - $font-family : Optional font-stack for the dropcap.
+// - @content     : Optionally override the default dropcap styles as needed.
+@mixin dropcap(
+  $size         : $base-font-size*2,
+  $lines        : lines-for-font-size($size),
+  $padding      : $default-dropcap-padding,
+  $from-size    : $base-font-size,
+  $font-family  : $default-dropcap-font-family
+) {
+  &:first-letter {
+    @include adjust-font-size-to($size,$lines,$from-size);
+    font-family: $font-family;
+    float: left;
+    padding: $padding;
+
+    @content;
+  }
+}
