@@ -79,7 +79,7 @@ $default-shades   : $default-amounts        !default;
 ) {
   $saturation: false;
   $light: false;
-  $base: false;
+  $base: hsl(0,0%,50%);
   $index: 0;
 
   @each $arg in $color {
