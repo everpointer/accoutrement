@@ -80,13 +80,17 @@ $default-shades   : $default-amounts        !default;
   $saturation: false;
   $lightness: false;
   $hue: hsl(0,0%,50%);
+  $has-hue: false;
   $index: 0;
 
   @each $arg in $color {
-    @if type-of($arg) == 'color' { $hue: $arg; }
+    @if type-of($arg) == 'color' {
+      $hue: $arg;
+      $has-hue: true;
+    }
     @if type-of($arg) == 'number' {
       @if unit($arg) != '' {
-        @if $hue { $lightness: $arg; }
+        @if $has-hue { $lightness: $arg; }
         @else{ $saturation: $arg; }
       }
       @else { $index: $arg; }
