@@ -33,7 +33,9 @@ List of Things
 
 ### Color
 
-*The idea of color-stacks comes from [toolkit][],
+*The brightness and contrast functions are based on
+a [codepen demo][text-contrast] by Brendan Saunders.
+The idea of color-stacks comes from [toolkit][],
 though I've made some alterations to fit into my own process.*
 
 **Settings**:
@@ -50,6 +52,8 @@ though I've made some alterations to fit into my own process.*
 - `tint-stack($color [, $amounts])`
 - `shade-stack($color [, $amounts])`
 - `color($color [, $alpha, $tints, $shades])`
+
+[text-contrast]: http://codepen.io/bluesaunders/details/FCLaz
 
 ### Math
 
