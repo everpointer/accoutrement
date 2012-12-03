@@ -1,4 +1,53 @@
 // ----------------------------------------------------------------------------
+// Brightness
+
+// Returns the visual brightness of a color.
+//
+// brightness($color)
+// - $color: You know.
+@function brightness($color) {
+  @return round((red($color) * 299) + (green($color) * 587) + (blue($color) * 114) / 1000);
+}
+
+// ----------------------------------------------------------------------------
+// Contrast
+
+// Set the default light and dark contrasts.
+$contrasted-dark-default  : black     !default;
+$contrasted-light-default : white     !default;
+
+// Return a light or dark option based on best visual contrast.
+//
+// contrast($color [, $contrast])
+// - $color: The known color to contrast against.
+// - $contrast: Two colors (light and dark) to pick for best contrast.
+@function contrast(
+  $color,
+  $contrast: $contrasted-dark-default $contrasted-light-default
+) {
+  $contrasted-light: false;
+  $contrasted-dark: false;
+
+  @if length($contrast) == 2 {
+    $light1: brightness(nth($contrast,1));
+    $light2: brightness(nth($contrast,2));
+    $contrasted-light: if($light1 > $light2, nth($contrast,1), nth($contrast,2));
+    $contrasted-dark: if($light1 < $light2, nth($contrast,1), nth($contrast,2));
+  } @else {
+    @warn "Contrast takes two colors (light & dark) for the second argument.";
+  }
+
+  $color-brightness: brightness($color);
+  $light-contrast-brightness: brightness($contrasted-light);
+  $dark-contrast-brightness: brightness($contrasted-dark);
+
+  $light-diff: abs($color-brightness - $light-contrast-brightness);
+  $dark-diff: abs($color-brightness - $dark-contrast-brightness);
+
+  @return if($light-diff > $dark-diff, $contrasted-light, $contrasted-dark);
+}
+
+// ----------------------------------------------------------------------------
 // Color Stacks
 
 // Set the default mixing intervals for use in color stacks.

@@ -37,11 +37,15 @@ List of Things
 though I've made some alterations to fit into my own process.*
 
 **Settings**:
-- `$default-amounts  : 20% 40% 60% 70% 80%  !default;`
-- `$default-tints    : $default-amounts     !default;`
-- `$default-shades   : $default-amounts     !default;`
+- `$contrasted-dark-default   : black                 !default;`
+- `$contrasted-light-default  : white                 !default;`
+- `$default-amounts           : 20% 40% 60% 70% 80%   !default;`
+- `$default-tints             : $default-amounts      !default;`
+- `$default-shades            : $default-amounts      !default;`
 
 **Functions:**
+- `brightness($color)`
+- `contrast($color [, $contrast])`
 - `color-stack($main, $second [, $amounts])`
 - `tint-stack($color [, $amounts])`
 - `shade-stack($color [, $amounts])`
