@@ -90,7 +90,7 @@ $default-shades   : $default-amounts        !default;
     }
     @if type-of($arg) == 'number' {
       @if unit($arg) != '' {
-        @if $has-hue { $lightness: $arg; }
+        @if $has-hue or length($color) == 1 { $lightness: $arg; }
         @else{ $saturation: $arg; }
       }
       @else { $index: $arg; }
