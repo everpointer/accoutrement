@@ -78,15 +78,15 @@ $default-shades   : $default-amounts        !default;
   $shades: $default-shades
 ) {
   $saturation: false;
-  $light: false;
-  $base: hsl(0,0%,50%);
+  $lightness: false;
+  $hue: hsl(0,0%,50%);
   $index: 0;
 
   @each $arg in $color {
-    @if type-of($arg) == 'color' { $base: $arg; }
+    @if type-of($arg) == 'color' { $hue: $arg; }
     @if type-of($arg) == 'number' {
       @if unit($arg) != '' {
-        @if $base { $light: $arg; }
+        @if $hue { $lightness: $arg; }
         @else{ $saturation: $arg; }
       }
       @else { $index: $arg; }
@@ -105,25 +105,25 @@ $default-shades   : $default-amounts        !default;
     }
   }
 
-  @if $light and $light != 0 {
-    @if $light > 0 { $base: tint($base,$light); }
-    @else { $base: shade($base,abs($light)); }
+  @if $lightness and $lightness != 0 {
+    @if $lightness > 0 { $hue: tint($hue,$lightness); }
+    @else { $hue: shade($hue,abs($lightness)); }
   } @else if $index and $index != 0 {
     $color-stack: compact();
     @if $index > 0 {
       $index: $index + 1;
-      $color-stack: tint-stack($base, $tints);
+      $color-stack: tint-stack($hue, $tints);
     } @else {
       $index: abs($index) + 1;
-      $color-stack: shade-stack($base, $shades);
+      $color-stack: shade-stack($hue, $shades);
     }
     @if $index <= length($color-stack) {
-      $base: nth($color-stack,$index);
+      $hue: nth($color-stack,$index);
     } @else {
       @warn "You don't have #{$index - 1} colors in this stack";
     }
   }
 
-  @if $saturation { $base: scale-color($base, $saturation: $saturation); }
-  @return rgba($base, $alpha);
+  @if $saturation { $hue: scale-color($hue, $saturation: $saturation); }
+  @return rgba($hue, $alpha);
 }
