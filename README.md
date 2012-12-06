@@ -80,7 +80,7 @@ though I've made some alterations to fit into my own process.*
 **Mixins:**
 - `@include before($content)`
 - `@include after($content)`
-- `@include wrap($content)`
+- `@include wrap-content($content)`
 
 ### Rhythm
 
