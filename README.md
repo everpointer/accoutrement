@@ -19,10 +19,17 @@ who are very smart.
 List of Things
 --------------
 
+### A11y
+
+**Mixins:**
+- `gone()`
+
+**Silent Classes:**
+- `%alt-text`
+
 ### Arrows
 
 **Settings:**
-
 - `$default-arrow-position       : top         !default;`
 - `$default-arrow-offset         : center      !default;`
 - `$default-arrow-size           : 1em         !default;`
@@ -31,7 +38,6 @@ List of Things
 - `$default-arrow-border-color   : null        !default;`
 
 **Mixins:**
-
 - `arrow-base()`
 - `arrow([$arrow, $border, $positioning])`
 
@@ -122,7 +128,13 @@ though I've made some alterations to fit into my own process.*
 
 **Mixins:**
 - `@include tab-defaults`
-- `@include make-tabs($slugs [, $nested, $checked])`
+- `@include tabs($slugs [, $nested, $checked])`
+
+**Silent Classes:**
+- `%hide-tab-toggle`
+- `%hide-tab-content`
+- `%show-tab-content`
+- `%active-tab-title`
 
 ### Type
 
