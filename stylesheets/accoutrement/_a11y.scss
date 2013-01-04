@@ -1,10 +1,20 @@
 // ----------------------------------------------------------------------------
-// gone
+// gone/here
 
 @mixin gone {
   position: absolute;
   top: -9999px;
   left: -9999px;
+}
+
+// Bring back a previously "gone" element.
+//
+// here([$position])
+// - $position  : static | relative | etc...
+@mixin here($position: static) {
+  position: $position;
+  top: auto;
+  left: auto;
 }
 
 // ----------------------------------------------------------------------------
