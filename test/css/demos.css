@@ -1,0 +1,78 @@
+.a11y .gone-here {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+.a11y .gone-here {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+html {
+  font-size: 100%;
+  line-height: 1.5em;
+}
+
+body {
+  overflow: hidden;
+  *zoom: 1;
+  max-width: 40em;
+  margin: 2em auto;
+}
+
+h2 {
+  color: lightgray;
+}
+
+.a11y:hover .gone-here {
+  position: static;
+  top: auto;
+  left: auto;
+}
+
+.arrows p {
+  border-width: 0.125em;
+  border-style: solid;
+  padding: 0.625em;
+}
+.arrows .arrow-down {
+  position: relative;
+  border-color: red;
+}
+.arrows .arrow-down:before {
+  content: " ";
+  position: absolute;
+  height: 0;
+  width: 0;
+  border: solid transparent;
+  pointer-events: none;
+  top: 100%;
+  border-top-color: red;
+  border-width: 0.5em;
+  left: 50%;
+  margin-left: -0.5em;
+}
+.arrows .arrow-up-border {
+  position: relative;
+  border-color: red;
+  background: lightgray;
+}
+.arrows .arrow-up-border:before, .arrows .arrow-up-border:after {
+  content: " ";
+  position: absolute;
+  height: 0;
+  width: 0;
+  border: solid transparent;
+  pointer-events: none;
+  bottom: 100%;
+  border-bottom-color: lightgrey;
+  border-width: 6px;
+  left: 1em;
+}
+.arrows .arrow-up-border:before {
+  border-width: 9px;
+  border-bottom-color: red;
+  margin-left: -3px;
+}

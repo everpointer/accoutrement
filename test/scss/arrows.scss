@@ -1,0 +1,16 @@
+// ------
+// import
+
+@import "compass";
+@import "accoutrement";
+
+// ------
+// arrows
+
+.arrow-keyword {
+  @include arrow(top center .5em red);
+}
+
+.arrow-border {
+  @include arrow(top 1em .5em blue, .25em);
+}

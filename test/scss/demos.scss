@@ -1,0 +1,42 @@
+// ------
+// import
+
+@import "compass";
+@import "accoutrement";
+
+// ------
+// layout
+
+@include establish-baseline;
+
+body {
+  @include clearfix;
+  max-width: 40em;
+  margin: 2em auto;
+}
+
+h2 { color: lightgray; }
+
+// ----
+// a11y
+
+.a11y {
+  .gone-here { @extend %alt-text; }
+  &:hover .gone-here { @include here; }
+}
+
+// ------
+// arrows
+
+.arrows {
+  p { @include rhythm-borders(2px,.5); }
+  .arrow-down {
+    @include arrow(bottom center .5em red);
+    border-color: red;
+  }
+  .arrow-up-border {
+    @include arrow(top 1em 6px lightgray, 2px red);
+    border-color: red;
+    background: lightgray;
+  }
+}

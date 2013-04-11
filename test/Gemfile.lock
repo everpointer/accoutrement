@@ -1,0 +1,26 @@
+GIT
+  remote: git://github.com/chriseppstein/compass
+  revision: 70e25c7f2cc91fa6d3d0439120e76ff431f65f13
+  branch: master
+  specs:
+    compass (0.13.alpha.4.70e25c7)
+      chunky_png (~> 1.2)
+      listen (<= 0.9.9)
+      sass (~> 3.2.5)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    chunky_png (1.2.8)
+    listen (0.7.3)
+    rb-fsevent (0.9.3)
+    sass (3.2.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  chunky_png (~> 1.2.8)
+  compass!
+  rb-fsevent (~> 0.9.3)
+  sass (~> 3.2.7)
