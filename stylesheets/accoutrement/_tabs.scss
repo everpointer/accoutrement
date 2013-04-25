@@ -86,7 +86,11 @@
 // Settings
 
 // We don't need the radio-inputs to display.
-%hide-tab-toggle { @include gone; }
+%hide-tab-toggle {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
 
 // The CSS3 `:checked` selector is not supported by IE7 and IE8.
 // For legacy support, use `[aria-checked="true"]` applied with JavaScrip.

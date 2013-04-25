@@ -1,9 +1,9 @@
-// ----------------------------------------------------------------------------
-// Layout Helpers
+// Layout
+// ======
 
-// OOCSS LastUnit Helper
-//
-// lastunit()
+// OOCSS LastUnit
+// --------------
+
 @mixin lastunit {
   display: table-cell;
   *display: block;
