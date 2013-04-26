@@ -1,0 +1,46 @@
+// Fonts
+// =====
+
+@mixin font(
+  $font
+) {
+  $name: false;
+  $location: false;
+  $weight: normal;
+  $style: normal;
+
+  $style-options: italic, oblique;
+  $weight-options: 100, 200, 300, 400, 500, 600, 700, 800, 900, bold, bolder, lighter;
+
+  @each $option in $style-options {
+    @if index($font, $option) {
+      $style: $option;
+      $font: filter($font, $option);
+    }
+  }
+
+  @each $option in $weight-options {
+    @if index($font, $option) {
+      $weight: $option;
+      $font: filter($font, $option);
+    }
+  }
+
+  @each $item in $font {
+    @if type-of($item) == string {
+      $name: if($name, $name, $item);
+      $location: $item;
+    }
+  }
+
+  @include font-face(
+    $name,
+    font-files(
+      '#{$location}.woff', 'woff',
+      '#{$location}.ttf', 'truetype'
+    ),
+    false,
+    $weight,
+    $style
+  );
+}
