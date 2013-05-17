@@ -2,20 +2,26 @@
 // import
 
 @import "compass";
+@import "susy";
 @import "accoutrement";
 
-// ------
-// layout
+// ----------------
+// demo page layout
+
+$total-columns: 8;
 
 @include establish-baseline;
 
 body {
-  @include clearfix;
-  max-width: 40em;
-  margin: 2em auto;
+  @include container;
+  @include rhythm-margins(2);
 }
 
-h2 { color: lightgray; }
+h2 {
+  @include leader;
+  @include leading-border(2px,.25);
+  color: lightgray;
+}
 
 // ----
 // a11y
@@ -40,3 +46,7 @@ h2 { color: lightgray; }
     background: lightgray;
   }
 }
+
+// ------
+// layout
+

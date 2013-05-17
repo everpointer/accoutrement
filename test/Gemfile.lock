@@ -8,6 +8,15 @@ GIT
       listen (<= 0.9.9)
       sass (~> 3.2.5)
 
+GIT
+  remote: git://github.com/ericam/susy
+  revision: aec8db9b576e5e02be6a5db6bcbc1c870a95e980
+  branch: master
+  specs:
+    susy (1.0.8)
+      compass (>= 0.12.2)
+      sass (>= 3.2.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -24,3 +33,4 @@ DEPENDENCIES
   compass!
   rb-fsevent (~> 0.9.3)
   sass (~> 3.2.7)
+  susy!

@@ -1,4 +1,6 @@
 # Compass CSS framework config file
+require 'susy'
+
 add_import_path '../stylesheets'
 
 project_type = :stand_alone
