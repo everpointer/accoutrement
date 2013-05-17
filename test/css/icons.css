@@ -1,0 +1,8 @@
+[data-icon]:before {
+  font-style: normal;
+  speak: none;
+}
+
+[data-icon]:before {
+  content: attr(data-icon);
+}

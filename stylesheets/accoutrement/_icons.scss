@@ -1,0 +1,43 @@
+// Icons
+// =====
+
+%icon-content {
+  @extend %icon-font !optional;
+  font-style: normal;
+  speak: none;
+}
+
+%icon:before {
+  @extend %icon-content;
+}
+
+// Inline
+// ------
+
+[data-icon]:before {
+  @extend %icon-content;
+  content: attr(data-icon);
+}
+
+// Defaults
+// --------
+
+@mixin icon-defaults {
+  %padded-icon:before {
+    @extend %icon-content;
+    padding-right: .4em;
+  }
+
+  %icon-replace {
+    @extend %icon;
+    position: relative;
+    min-width: 1em;
+    text-indent: -9999px;
+    &:before{
+      position: absolute;
+      top: 0;
+      left: 0;
+      text-indent: 0;
+    }
+  }
+}
