@@ -3,6 +3,7 @@
 
 @mixin icon-defaults($font) {
   %icon-content {
+    @include box-sizing(content-box);
     font-family: $font;
     font-style: normal;
     speak: none;
