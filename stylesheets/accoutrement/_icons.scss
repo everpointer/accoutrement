@@ -20,6 +20,7 @@
 
   %icon-replace {
     @extend %icon;
+    @include box-sizing(content-box);
     position: relative;
     min-width: 1em;
     text-indent: -9999px;
@@ -27,7 +28,9 @@
       position: absolute;
       top: 0;
       left: 0;
+      right: 0;
       text-indent: 0;
+      text-align: center;
     }
   }
 
