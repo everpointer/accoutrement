@@ -103,6 +103,8 @@ $default-shades   : $default-amounts        !default;
 // ---------------------------------------------------------------------------
 // Managing Colors
 
+$default-hue: hsl(0,0%,50%);
+
 // Returns a given tint or shade of a color,
 // with options for changing saturation and alpha channels as well.
 //
@@ -128,7 +130,7 @@ $default-shades   : $default-amounts        !default;
 ) {
   $saturation: false;
   $lightness: false;
-  $hue: hsl(0,0%,50%);
+  $hue: $default-hue;
   $has-hue: false;
   $index: 0;
 
