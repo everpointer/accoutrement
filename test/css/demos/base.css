@@ -4,15 +4,6 @@
   left: -9999px;
 }
 
-[data-icon]:before {
-  font-style: normal;
-  speak: none;
-}
-
-[data-icon]:before {
-  content: attr(data-icon);
-}
-
 .a11y .gone-here {
   position: absolute;
   top: -9999px;

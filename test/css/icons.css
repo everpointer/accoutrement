@@ -1,4 +1,5 @@
-[data-icon]:before {
+.icon-test:before, [data-icon]:before {
+  font-family: icons;
   font-style: normal;
   speak: none;
 }

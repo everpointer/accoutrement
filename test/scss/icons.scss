@@ -6,3 +6,7 @@
 
 // icons
 // -----
+
+@include icon-defaults(icons);
+
+.icon-test { @extend %icon; }

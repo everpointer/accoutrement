@@ -1,28 +1,17 @@
 // Icons
 // =====
 
-%icon-content {
-  @extend %icon-font !optional;
-  font-style: normal;
-  speak: none;
-}
+@mixin icon-defaults($font) {
+  %icon-content {
+    font-family: $font;
+    font-style: normal;
+    speak: none;
+  }
 
-%icon:before {
-  @extend %icon-content;
-}
+  %icon:before {
+    @extend %icon-content;
+  }
 
-// Inline
-// ------
-
-[data-icon]:before {
-  @extend %icon-content;
-  content: attr(data-icon);
-}
-
-// Defaults
-// --------
-
-@mixin icon-defaults {
   %padded-icon:before {
     @extend %icon-content;
     padding-right: .4em;
@@ -39,5 +28,11 @@
       left: 0;
       text-indent: 0;
     }
+  }
+
+  // Inline
+  [data-icon]:before {
+    @extend %icon-content;
+    content: attr(data-icon);
   }
 }
