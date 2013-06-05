@@ -33,14 +33,11 @@
     }
   }
 
-  @include font-face(
-    $name,
-    font-files(
-      '#{$location}.woff', 'woff',
-      '#{$location}.ttf', 'truetype'
-    ),
-    false,
-    $weight,
-    $style
-  );
+  @font-face {
+    font-family: quote($name);
+    src: font-url('#{$location}.woff', false, true) format('woff'),
+         font-url('#{$location}.ttf', false, true) format('truetype');
+    font-weight: $weight;
+    font-style: $style;
+  }
 }
