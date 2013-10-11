@@ -1,6 +1,8 @@
 // Fonts
 // =====
 
+$font-file-types: 'woff', 'ttf' 'truetype';
+
 @mixin font(
   $font
 ) {
@@ -33,10 +35,19 @@
     }
   }
 
+  $src: compact();
+
+  @each $type in $font-file-types {
+    $short: nth($type,1);
+    $long: $short;
+    @if type-of($type) == list { $long: nth($type,2); }
+    $type: font-url('#{$location}.#{$short}', false, true) format($long);
+    $src: append($src, $type, comma);
+  }
+
   @font-face {
     font-family: quote($name);
-    src: font-url('#{$location}.woff', false, true) format('woff'),
-         font-url('#{$location}.ttf', false, true) format('truetype');
+    src: $src;
     font-weight: $weight;
     font-style: $style;
   }
