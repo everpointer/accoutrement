@@ -1,7 +1,7 @@
 // Fonts
 // =====
 
-$font-file-types: 'woff', 'ttf' 'truetype';
+$font-file-types: 'woff', 'ttf';
 
 @mixin font(
   $font
@@ -13,6 +13,8 @@ $font-file-types: 'woff', 'ttf' 'truetype';
 
   $style-options: italic, oblique;
   $weight-options: 100, 200, 300, 400, 500, 600, 700, 800, 900, bold, bolder, lighter;
+  $type-options: 'woff', 'ttf', 'svg';
+  $type-names: 'woff', 'truetype', 'svg';
 
   @each $option in $style-options {
     @if index($font, $option) {
@@ -38,9 +40,8 @@ $font-file-types: 'woff', 'ttf' 'truetype';
   $src: compact();
 
   @each $type in $font-file-types {
-    $short: nth($type,1);
-    $long: $short;
-    @if type-of($type) == list { $long: nth($type,2); }
+    $short: $type;
+    $long: nth($type-names, index($type-options, $type));
     $type: font-url('#{$location}.#{$short}', false, true) format($long);
     $src: append($src, $type, comma);
   }
