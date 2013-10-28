@@ -5,7 +5,8 @@
   %icon-content {
     @include box-sizing(content-box);
     font-family: $font;
-    font-style: normal;
+    font-style: normal !important;
+    font-weight: normal !important;
     speak: none;
   }
 
