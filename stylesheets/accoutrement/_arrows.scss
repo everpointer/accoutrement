@@ -1,23 +1,20 @@
-// ----------------------------------------------------------------------------
-// Settings
+// Arrows
+// ======
 
-// Body defaults
-$default-arrow-position       : top         !default;
-$default-arrow-offset         : center      !default;
-$default-arrow-size           : 1em         !default;
-$default-arrow-color          : gray        !default;
+@include set(arrows, (
+  position: top,
+  offset: center,
+  direction: auto,
+  size: 1em,
+  color: black,
+  border-width: null,
+  border-color: null,
+));
 
-// Border defaults
-$default-arrow-border-size    : null        !default;
-$default-arrow-border-color   : null        !default;
 
-// ----------------------------------------------------------------------------
-// Mixins
-
-// Creates a pseudo-element, prepared for arrow-fication
-//
-// @include arrow-base()
-@mixin arrow-base {
+// Arrow Base
+// ----------
+@mixin _arrow-base {
   content: " ";
   position: absolute;
   height: 0;
@@ -26,102 +23,148 @@ $default-arrow-border-color   : null        !default;
   pointer-events: none;
 }
 
-// Creates an arrow to your exact size/shape/location specifications
-//
-// @include arrow([$arrow, $border, $positioning])
-// $arrow         : Arrow body position, offset, size, and color.
-// $border        : Border size and color.
-// $positioning   : You have to position the host element, default is relative.
+%_arrow-base {
+  @include _arrow-base;
+}
+
+
+// Arrow
+// -----
 @mixin arrow(
-  $arrow          : $default-arrow-position
-                    $default-arrow-offset
-                    $default-arrow-size
-                    $default-arrow-color,
-  $border         : $default-arrow-border-size
-                    $default-arrow-border-color,
-  $positioning    : relative
+  $arrow: get(arrows),
+  $root: relative
 ) {
-  $has-border     : false;
+  $arrow: _build-arrow($arrow);
+  $_body: map-get($arrow, body);
+  $_border: map-get($arrow, border);
 
-  $position       : $default-arrow-position;
-  $offset         : $default-arrow-offset;
-  $size           : $default-arrow-size;
-  $color          : $default-arrow-color;
-  $border-size    : $default-arrow-border-size;
-  $border-color   : $default-arrow-border-color;
+  position: $root;
 
-  $strings        : compact();
-  $numbers        : compact();
-
-  @each $val in $border {
-    @if type-of($val) == 'color' {
-      $border-color: $val;
-      $has-border: true;
-    } @else if type-of($val) == 'number' {
-      $border-size: $val;
-      $has-border: true;
-    }
+  &::after {
+    @extend %arrow-base;
+    @include output-map($_body);
   }
 
-  $pseudo         : if($has-border, '&:before, &:after', '&:before');
-
-  @each $val in $arrow {
-    @if type-of($val) == 'color' { $color: $val; }
-    @else if type-of($val) == 'string' { $strings: append($strings, $val); }
-    @else if type-of($val) == 'number' { $numbers: append($numbers, $val); }
+  &::before {
+    @if $_border { @extend %arrow-base; }
+    @include output-map($_border);
   }
+}
 
-  @if length($strings) > 0 {
-    $position: nth($strings,1);
-    @if length($strings) > 1 and nth($strings,2) { $offset: nth($strings,2); }
-  }
 
-  @if length($numbers) > 0 {
-    @if length($numbers) > 1 {
-      $offset: nth($numbers,1);
-      $size: nth($numbers,2);
-    } @else {
-      $size: nth($numbers,1);
-    }
-  }
+// Parse Arrow
+// -----------
+@function _parse-arrow(
+  $arrow: null
+) {
+  $_return: get(arrows);
+  $_numbers: ();
+  $_strings: ();
 
-  $opposite: opposite-position($position);
-  $offset-position: if($position == left or $position == right, top, left);
-  @if $offset == 'bottom' or $offset == 'right' {
-    $offset-position: opposite-position($offset-position);
-  } @else if type-of($offset) == "number" {
-    @if $offset != abs($offset) {
-      $offset-position: opposite-position($offset-position);
-    };
-  }
+  @if type-of($arrow) == map {
+    $_return: map-merge($_return, $arrow);
+  } @else if $arrow {
 
-  position: $positioning;
-
-  #{$pseudo} {
-    @include arrow-base;
-    #{$opposite}: 100%;
-    border-#{$opposite}-color: $color;
-    border-width: $size;
-    @if $offset {
-      @if $offset == 'center' {
-        #{$offset-position}: 50%;
-        margin-#{$offset-position}: - $size;
-      } @else if type-of($offset) == 'string' {
-        #{$offset-position}: 0;
-      } @else {
-        #{$offset-position}: abs($offset);
+    @each $val in $arrow {
+      @if type-of($val) == map {
+        $_return: map-merge($_return, $val);
+      } @else if type-of($val) == color {
+        $_return: map-merge($_return, (color: $val));
+      } @else if type-of($val) == string {
+        @if index(auto up down, $val) {
+          $return: map-merge($_return, (direction: $val));
+        } @else {
+          $_strings: append($_strings, $val);
+        }
+      } @else if type-of($val) == number {
+        $_numbers: append($_numbers, $val);
       }
     }
+
+    $i: 1;
+    @each $val in $_strings {
+      $_prop: if($i == 1, position, if($i == 2, direction, offset));
+      $return: map-merge($_return, ($_prop: $val));
+      $i: $i + 1;
+    }
+
+    @if length($_numbers) > 0 {
+      @if length($_numbers) > 1 {
+        $_return: map-merge($_return, (
+          offset: nth($_numbers,1),
+          size: nth($_numbers,2),
+        ));
+      } @else {
+        $_return: map-merge($_return, (
+          size: nth($_numbers, 1),
+        ));
+      }
+    }
+
   }
 
-  @if $has-border {
-    $border-ratio: 1.5; // 1.41421356 square root of 2, rounded a bit
-    $border-full: $size + $border-size * $border-ratio;
-    &:before {
-      border-width: $border-full;
-      border-#{$opposite}-color: $border-color;
-      @if $offset == 'center' { margin-#{$offset-position}: - $border-full; }
-      @else { margin-#{$offset-position}: - $border-size * $border-ratio; }
+  @return $_return;
+}
+
+
+// Build Arrow
+// -----------
+@function _build-arrow(
+  $arrow
+) {
+  $arrow: _parse-arrow($arrow);
+  $_position: map-get($arrow, position);
+  $_offset: map-get($arrow, offset);
+  $_color: map-get($arrow, color);
+  $_size: map-get($arrow, size);
+  $_border-color: map-get($arrow, border-color);
+  $_border-size: map-get($arrow, border-width);
+  $_opposite: opposite-position($_position);
+
+  $_offset-position: if($_position == left or $_position == right, top, left);
+
+  @if $_offset == 'bottom' or $_offset == 'right' {
+    $_offset-position: opposite-position($_offset-position);
+  } @else if type-of($_offset) == "number" and $_offset != abs($_offset) {
+    $_offset-position: opposite-position($_offset-position);
+  }
+
+  $_border: null;
+  $_body: (
+    #{$_opposite}: 100%,
+    border-#{$_opposite}-color: $color,
+    border-width: $size,
+  );
+
+  @if $_offset {
+    @if $_offset == 'center' {
+      $_body: map-merge($_body, (
+        #{$_offset-position}: 50%,
+        margin-#{$_offset-position}: - $_size,
+      ));
+    } @else if type-of($_offset) == 'string' {
+      $_body: map-merge($_body, (
+        #{$_offset-position}: 0,
+      ));
+    } @else {
+      $_body: map-merge($_body, (
+        #{$_offset-position}: abs($_offset),
+      ));
     }
   }
+
+  @if $_border-size and $_border-color {
+    $_border-ratio: 1.5; // 1.41421356 square root of 2, rounded a bit
+
+    $_border: map-merge($_body, (
+      border-width: $_size + $_border-size * $_border-ratio,
+      border-#{$_opposite}-color: $border-color,
+      margin-#{$offset-position}: if($offset == 'center', 0 - $_border, 0 - $border-size * $border-ratio),
+    ));
+  }
+
+  @return: (
+    body: $_body,
+    border: $_border,
+  );
 }

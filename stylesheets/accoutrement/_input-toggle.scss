@@ -1,0 +1,19 @@
+// Input Toggles
+// =============
+
+
+// Is Checked
+// ----------
+// Add styles when an input is checked
+@mixin is-checked {
+  &:checked { @content; }
+}
+
+
+// Toggle
+// ------
+// Create
+@mixin is-toggle {
+  @include is-hidden;
+  @include is-checked { @content; }
+}

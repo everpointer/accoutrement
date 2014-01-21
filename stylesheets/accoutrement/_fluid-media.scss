@@ -1,0 +1,48 @@
+// Fluid Media
+// ===========
+
+
+@include set(fluid-media, (
+  ratio: 16/9,
+  width: 100%,
+  children: '*',
+));
+
+
+// Fluid Ratio
+// -----------
+@mixin fluid-ratio(
+  $args
+) {
+  $_ratio: get(fluid-media ratio);
+  $_width: get(fluid-media width);
+  $_children: get(fluid-media children);
+
+  @each $arg in $args {
+    @if type-of($arg) == string {
+      $_children: $arg;
+    } @else if type-of($arg) == number {
+      @if unitless($arg) {
+        $_ratio: $arg;
+      } @else {
+        $_width: $arg;
+      }
+    }
+  }
+
+  position: relative;
+  height: 0;
+  padding-top: (1 / $_ratio) * $_width;
+  width: $_width;
+
+  @if $children {
+    > #{$children} {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+  }
+}

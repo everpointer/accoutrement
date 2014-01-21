@@ -1,23 +1,38 @@
-// ----------------------------------------------------------------------------
-// gone/here
+// Accessibility
+// =============
 
-@mixin gone {
+
+// Is Hidden
+// ---------
+
+@mixin _is-hidden--position {
   position: absolute;
   top: -9999px;
   left: -9999px;
 }
 
-// Bring back a previously "gone" element.
-//
-// here([$position])
-// - $position  : static | relative | etc...
-@mixin here($position: static) {
-  position: $position;
-  top: auto;
-  left: auto;
+@mixin _is-hidden--clip {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
 }
 
-// ----------------------------------------------------------------------------
-// alt text
+@mixin is-hidden(
+  $method: clip
+) {
+  @if $method == position {
+    @include _is-hidden--position;
+  } @else {
+    @include _is-hidden--clip;
+  }
+}
 
-%alt-text { @include gone; }
+
+// Placeholders
+// ------------
+
+%is-hidden {
+  @include is-hidden;
+}

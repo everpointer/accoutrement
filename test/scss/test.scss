@@ -1,0 +1,12 @@
+// Accoutrement Tests
+// ==================
+
+@import "true";
+
+@include test-module('placeholder') {
+  @include test('we need tests') {
+    @include assert-true(true);
+  }
+}
+
+@include report;

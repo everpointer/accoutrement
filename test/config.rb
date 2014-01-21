@@ -1,5 +1,6 @@
 # Compass CSS framework config file
 require 'susy'
+require 'true'
 
 add_import_path '../stylesheets'
 

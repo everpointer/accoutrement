@@ -1,55 +1,113 @@
+// Fontface Tools
+// ==============
+
+@include set(fontface formats, woff ttf);
+
+
 // Fonts
-// =====
-
-$font-file-types: 'woff', 'ttf';
-
-@mixin font(
-  $font
+// -----
+// Establish fonts
+@mixin fonts(
+  $fonts: get(fonts),
+  $formats: get(fontface formats)
 ) {
-  $name: false;
-  $location: false;
-  $weight: normal;
-  $style: normal;
+  @include import-fonts($fonts, $formats);
+  @include font-placeholders($fonts);
+}
 
-  $style-options: italic, oblique;
-  $weight-options: 100, 200, 300, 400, 500, 600, 700, 800, 900, bold, bolder, lighter;
-  $type-options: 'woff', 'ttf', 'svg';
-  $type-names: 'woff', 'truetype', 'svg';
 
-  @each $option in $style-options {
-    @if index($font, $option) {
-      $style: $option;
-      $font: filter($font, $option);
+// Import Fonts
+// ------------
+// Create font-face css
+@mixin import-fonts(
+  $fonts: get(fonts),
+  $formats: get(fontface formats)
+) {
+  @each $font, $info in $fonts {
+    $name: map-get($info, name) or $font;
+
+    @each $styles, $path in map-get($info, files) {
+      $styles: _parse-font-styles($styles);
+      $src: _build-font-src($path, $formats);
+
+      @font-face {
+        font-family: quote($name);
+        src: $src;
+        font-weight: map-get($styles, weight);
+        font-style: map-get($styles, style);
+      }
+    }
+  }
+}
+
+
+// Parse Font Styles
+// -----------------
+// Return font weight and style based on shorthand syntax
+@function _parse-font-styles(
+  $face
+) {
+  $styles: italic, oblique;
+  $weights: 100, 200, 300, 400, 500, 600, 700, 800, 900, bold, bolder, lighter;
+  $return: (
+    weight: normal,
+    style: normal,
+  );
+
+  @each $item in $face {
+    @if index($styles, $item) {
+      $return: map-merge($return, (style: $item));
+    } @else if index($weights, $item) {
+      $return: map-merge($return, (weight: $item));
     }
   }
 
-  @each $option in $weight-options {
-    @if index($font, $option) {
-      $weight: $option;
-      $font: filter($font, $option);
+  @return $return;
+}
+
+
+// Build Font SRC
+// --------------
+// Return src attribute based on path and formats
+@function _build-font-src(
+  $path,
+  $formats: get(fontface formats)
+) {
+  $options: (
+    'woff': 'woff',
+    'ttf': 'truetype',
+    'svg': 'svg',
+  );
+  $return: ();
+
+  @each $format in $formats {
+    $name: map-get($options, $format);
+    @if $name {
+      $src: font-url('#{$path}.#{$format}') format($name);
+      $return: append($return, $src, comma);
     }
   }
 
-  @each $item in $font {
-    @if type-of($item) == string {
-      $name: if($name, $name, $item);
-      $location: $item;
+  @return $return;
+}
+
+
+// Font Placeholders
+// -----------------
+// Create font-family placeholders
+@mixin font-placeholders(
+  $fonts: get(fonts)
+) {
+  @each $font, $info in $fonts {
+    $name: map-get($info, name) or $font;
+    $type: map-get($info, type);
+    $stack: append($name, map-get($info, stack), comma);
+    $stack: append($stack, $type, comma);
+
+    @if $type == monospace {
+      $stack: append($stack, serif);
     }
-  }
 
-  $src: compact();
-
-  @each $type in $font-file-types {
-    $short: $type;
-    $long: nth($type-names, index($type-options, $type));
-    $type: font-url('#{$location}.#{$short}', false, true) format($long);
-    $src: append($src, $type, comma);
-  }
-
-  @font-face {
-    font-family: quote($name);
-    src: $src;
-    font-weight: $weight;
-    font-style: $style;
+    %#{$font} { font-family: $stack; }
   }
 }

@@ -1,43 +1,55 @@
-// Icons
-// =====
+// Icon Toolkit
+// ============
 
-@mixin icon-defaults($font) {
-  %icon-content {
-    @include box-sizing(content-box);
-    font-family: $font;
-    font-style: normal !important;
-    font-weight: normal !important;
-    speak: none;
-  }
 
-  %icon:before {
-    @extend %icon-content;
-  }
-
-  %padded-icon:before {
-    @extend %icon-content;
-    padding-right: .4em;
-  }
-
-  %icon-replace {
+// Icon
+// ----
+@mixin icon(
+  $name,
+  $location: before
+) {
+  &:#{$location} {
     @extend %icon;
-    @include box-sizing(content-box);
-    position: relative;
-    min-width: 1em;
-    text-indent: -9999px;
-    &:before{
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      text-indent: 0;
-      text-align: center;
-    }
+    content: get(icons $name);
+    @content;
   }
+}
 
-  // Inline
-  [data-icon]:before {
-    @extend %icon-content;
-    content: attr(data-icon);
+
+// Data Icons
+// ----------
+@mixin data-icons(
+  $icons: get(icons)
+) {
+  @each $name, $value in $icons {
+    [data-icon='#{$name}']:before { content: $value; }
   }
+}
+
+
+// Placeholders
+// ------------
+
+%icon {
+  font-family: 'susy';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-decoration: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+// Data Icon
+// ---------
+
+[data-icon] {
+  @extend %icon;
+  @include before(attr(data-icon));
 }

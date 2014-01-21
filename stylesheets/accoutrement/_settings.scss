@@ -1,0 +1,24 @@
+// Settings
+// ========
+
+
+$settings: ();
+
+
+// Set
+// ---
+@mixin set(
+  $key,
+  $value
+) {
+  $settings: map-merge($settings, ($key: $value)) !global;
+}
+
+
+// Get
+// ---
+@function get(
+  $keys
+) {
+  @return deep-get($settings, $keys...);
+}

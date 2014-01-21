@@ -1,36 +1,49 @@
-GIT
-  remote: git://github.com/chriseppstein/compass
-  revision: 70e25c7f2cc91fa6d3d0439120e76ff431f65f13
-  branch: master
+PATH
+  remote: ..
   specs:
-    compass (0.13.alpha.4.70e25c7)
-      chunky_png (~> 1.2)
-      listen (<= 0.9.9)
-      sass (~> 3.2.5)
-
-GIT
-  remote: git://github.com/ericam/susy
-  revision: aec8db9b576e5e02be6a5db6bcbc1c870a95e980
-  branch: master
-  specs:
-    susy (1.0.8)
-      compass (>= 0.12.2)
-      sass (>= 3.2.0)
+    accoutrement (0.1.0)
+      sass (~> 3.3.0.rc.1)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    chunky_png (1.2.8)
-    listen (0.7.3)
-    rb-fsevent (0.9.3)
-    sass (3.2.7)
+    chunky_png (1.2.9)
+    compass (1.0.0.alpha.17)
+      chunky_png (~> 1.2)
+      compass-core (~> 1.0.0.alpha.16)
+      compass-import-once (~> 1.0.1)
+      json
+      listen (~> 1.1.0)
+      sass (~> 3.3.0.rc.1)
+    compass-core (1.0.0.alpha.16)
+      multi_json (~> 1.0)
+      sass (>= 3.3.rc.1)
+    compass-import-once (1.0.2)
+    ffi (1.9.3)
+    json (1.8.1)
+    listen (1.1.6)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+      rb-kqueue (>= 0.2)
+    multi_json (1.8.4)
+    rb-fsevent (0.9.4)
+    rb-inotify (0.9.3)
+      ffi (>= 0.5.0)
+    rb-kqueue (0.2.0)
+      ffi (>= 0.5.0)
+    sass (3.3.0.rc.2)
+      listen (~> 1.1.0)
+    susy (2.0.0.beta.3)
+      sass (~> 3.3.0.rc.1)
+    true (0.2.0.rc.4)
+      sass (~> 3.3.0.rc.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  chunky_png (~> 1.2.8)
-  compass!
-  rb-fsevent (~> 0.9.3)
-  sass (~> 3.2.7)
-  susy!
+  accoutrement!
+  compass (~> 1.0.0.alpha.17)
+  sass (~> 3.3.0.rc.2)
+  susy (= 2.0.0.beta.3)
+  true (= 0.2.0.rc.4)
