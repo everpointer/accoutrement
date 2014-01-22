@@ -1,0 +1,28 @@
+// Scale Tests
+// ===========
+
+@include test-module('scale') {
+
+  // size
+  @include test('size') {
+    $test: size(1, 16px, fifth);
+    $expect: 24px;
+    @include assert-equal($test, $expect,
+      'Returns a length based on a multiplier.');
+  }
+
+  // _get-font-sizes
+  @include test('_get-font-sizes') {
+    $result: _get-font-sizes(large, 2);
+
+    $test: map-get($result, lines);
+    $expect: 2;
+    @include assert-equal($test, $expect,
+      'Lines are passed through directly if specified.');
+
+    $test: map-get($result, to_size);
+    $expect: 24px;
+    @include assert-equal($test, $expect,
+      'To-size is calculated from keyword.');
+  }
+}

@@ -1,0 +1,95 @@
+// Tooltips
+// ========
+
+@include set(tooltips, (
+  position: top right,
+  container: '.tooltip',
+  content: '.tooltip-text',
+));
+
+
+// Tooltip
+// -------
+@mixin tooltip(
+  $pos: get(tooltips position)
+) {
+  $x: null;
+  $y: null;
+
+  @each $side in $pos {
+    $x: if($side == left or $side == right, $side, $x);
+    $y: if($side == top or $side == bottom, $side, $y);
+  }
+
+  #{get(tooltips content)} {
+    @extend #{'%tooltip' + if($y, '-#{$y}', null) + if($x, '-#{$x}', null)};
+    @content;
+  }
+}
+
+
+// Tooltips
+// --------
+@mixin tooltips {
+  #{get(tooltips container)} {
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    &:hover .tooltip-text {
+      display: block;
+      z-index: 900;
+    }
+  }
+
+  #{get(tooltips content)} {
+    display: none;
+    position: absolute;
+    white-space: nowrap;
+    pointer-events: none;
+    @content;
+
+    &[data-tooltip] { @include after(attr(data-tooltip)); }
+  }
+}
+
+
+// Placeholders
+// ------------
+
+%tooltip-top {
+  bottom: 100%;
+}
+
+%tooltip-top-left {
+  @extend %tooltip-top;
+  right: 0;
+}
+
+%tooltip-top-right {
+  @extend %tooltip-top;
+  left: 0;
+}
+
+%tooltip-bottom {
+  top: 100%;
+}
+
+%tooltip-bottom-left {
+  @extend %tooltip-bottom;
+  right: 0;
+}
+
+%tooltip-bottom-right {
+  @extend %tooltip-bottom;
+  left: 0;
+}
+
+%tooltip-right {
+  top: 0;
+  left: 100%;
+}
+
+%tooltip-left {
+  top: 0;
+  right: 100%;
+}

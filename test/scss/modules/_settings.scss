@@ -1,0 +1,31 @@
+// Settings Tests
+// ==============
+
+@include test-module('Settings') {
+  $key: test;
+  $value: cheese;
+
+  // Set
+  // ---
+  @include test('set') {
+
+    $test: map-get($settings, $key);
+    @include assert-unequal($test,
+      'Start from scratch.');
+
+    @include set($key, $value);
+
+    $test: map-get($settings, $key);
+    @include assert-equal($test, $value,
+      'Sets a value for the given setting key.');
+  }
+
+  // Get
+  // ---
+  @include test('get') {
+    $test: get($key);
+    $expect: map-get($settings, $key);
+    @include assert-equal($test, $expect,
+      'Returns the correct value for a setting.');
+  }
+}

@@ -1,6 +1,8 @@
 // Scales
 // ======
 
+@import "compass/typography/vertical_rhythm";
+
 @include set(ratio-options, (
   octave           : 2,
   major-seventh    : 15/8,
@@ -28,7 +30,7 @@
   xxxsmall  : -4,
 ));
 
-@include set(ratio, fourth);
+@include set(ratio, fifth);
 
 
 // Size
@@ -56,15 +58,19 @@
   $size: normal,
   $lines: false
 ){
-  $output: if($lines, (lines: $lines), ());
+  $_output: _get-font-sizes($size, $lines);
+  @include adjust-font-size-to($_output...);
+}
 
-  @if type-of($size) == string {
-    $size: size(get(scale $size));
-  } @else if type-of($size) == number and unitless($size) {
-    $size: size($size)
-  }
 
-  $output: map-merge($output, (to_size: $size));
+// Get Font Sizes
+// --------------
+@function _get-font-sizes(
+  $size: normal,
+  $lines: false
+) {
+  $_return: if($lines, (lines: $lines), ());
+  $size: size($size);
 
-  @include adjust-font-size-to($output...);
+  @return map-merge($_return, (to_size: $size));
 }
