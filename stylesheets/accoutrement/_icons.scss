@@ -58,13 +58,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-}
 
-
-// Data Icon
-// ---------
-
-[data-icon] {
-  @extend %icon;
-  @include before(attr(data-icon));
+  [data-icon] {
+    @extend %icon;
+    @include before(attr(data-icon));
+  }
 }

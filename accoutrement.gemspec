@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.files = Dir.glob("lib/*.*")
-  s.files += Dir.glob("sass/**/*.*")
+  s.files += Dir.glob("stylesheets/**/*.*")
   s.files += ["README.md", "VERSION"]
 
   # Docs Information
