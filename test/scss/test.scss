@@ -11,20 +11,20 @@
 @import "modules/maps";
 @import "modules/settings";
 @import 'modules/scale';
-// @import 'modules/pseudo-elements';
-// @import 'modules/fonts';
-// @import 'modules/color';
-// @import 'modules/icons';
+@import 'modules/fonts';
+@import 'modules/color';
 
 
 // Patterns
 // --------
 
-// @import 'modules/a11y';
-// @import 'modules/input-toggle';
-// @import 'modules/arrows';
-// @import 'modules/fluid-media';
-// @import 'modules/tooltips';
+@import 'modules/a11y';
+@import 'modules/pseudo-elements';
+@import 'modules/icons';
+@import 'modules/input-toggle';
+@import 'modules/arrows';
+@import 'modules/fluid-media';
+@import 'modules/tooltips';
 
 
 // Report

@@ -4,16 +4,16 @@
 @import 'accoutrement/maps';
 @import 'accoutrement/settings';
 @import 'accoutrement/scale';
-@import 'accoutrement/pseudo-elements';
 @import 'accoutrement/fonts';
 @import 'accoutrement/color';
-@import 'accoutrement/icons';
 
 
 // Patterns
 // --------
 
 @import 'accoutrement/a11y';
+@import 'accoutrement/pseudo-elements';
+@import 'accoutrement/icons';
 @import 'accoutrement/input-toggle';
 @import 'accoutrement/arrows';
 @import 'accoutrement/fluid-media';

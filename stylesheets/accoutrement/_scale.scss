@@ -41,11 +41,11 @@
   $ratio: get(ratio)
 ) {
   @if type-of($multiplier) == string {
-    $multiplier: get(scale $multiplier);
+    $multiplier: get(scale, $multiplier);
   }
 
   @if type-of($ratio) == string {
-    $ratio: get(ratio-options $ratio);
+    $ratio: get(ratio-options, $ratio);
   }
 
   @return round($root * pow($ratio, $multiplier));

@@ -1,0 +1,58 @@
+// Color Tests
+// ===========
+
+@include test-module(colors) {
+
+  // color
+  @include test(color) {
+    $test: color(red, .5);
+    $expect: rgba(red, .5);
+    @include assert-equal($test, $expect,
+      'Returns an alpha-adjusted color.');
+
+    $test: color(25% red light);
+    $expect: scale-color(tint(red, 20%), $saturation: 25%);
+    @include assert-equal($test, $expect,
+      'Returns a lightness and saturation-adjusted color.');
+  }
+
+  // _parse-color
+  @include test(_parse-color) {
+    $test: _parse-color(red);
+    $expect: (
+      color: red,
+      lightness: null,
+      saturation: null,
+    );
+    @include assert-equal($test, $expect,
+      'Parses a solo color with no lightness/saturation adjustments.');
+
+    $test: _parse-color(20%);
+    $expect: (
+      color: gray,
+      lightness: 20%,
+      saturation: null,
+    );
+    @include assert-equal($test, $expect,
+      'Parses a solo lightness adjustment, using gray.');
+
+    $test: _parse-color(20% red 25%);
+    $expect: (
+      color: red,
+      lightness: 25%,
+      saturation: 20%,
+    );
+    @include assert-equal($test, $expect,
+      'Parses lightness and saturation numbers against a color.');
+
+    $test: _parse-color(lighter 20% red);
+    $expect: (
+      color: red,
+      lightness: 50%,
+      saturation: 20%,
+    );
+    @include assert-equal($test, $expect,
+      'Parses lightness keyword and saturation numbers against a color.');
+  }
+
+}

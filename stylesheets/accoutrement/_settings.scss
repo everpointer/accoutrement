@@ -8,17 +8,16 @@ $settings: ();
 // Set
 // ---
 @mixin set(
-  $key,
-  $value
+  $keys-value...
 ) {
-  $settings: map-merge($settings, ($key: $value)) !global;
+  $settings: deep-set($settings, $keys-value...) !global;
 }
 
 
 // Get
 // ---
 @function get(
-  $keys
+  $keys...
 ) {
   @return deep-get($settings, $keys...);
 }

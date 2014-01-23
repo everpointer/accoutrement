@@ -12,22 +12,6 @@
 ));
 
 
-// Arrow Base
-// ----------
-@mixin _arrow-base {
-  content: " ";
-  position: absolute;
-  height: 0;
-  width: 0;
-  border: solid transparent;
-  pointer-events: none;
-}
-
-%_arrow-base {
-  @include _arrow-base;
-}
-
-
 // Arrow
 // -----
 @mixin arrow(
@@ -41,7 +25,7 @@
   position: $root;
 
   &::after {
-    @extend %arrow-base;
+    @extend %_arrow-base;
     @include output-map($_body);
   }
 
@@ -49,6 +33,22 @@
     @if $_border { @extend %arrow-base; }
     @include output-map($_border);
   }
+}
+
+
+// Arrow Base
+// ----------
+@mixin _arrow-base {
+  content: " ";
+  position: absolute;
+  height: 0;
+  width: 0;
+  border: solid transparent;
+  pointer-events: none;
+}
+
+%_arrow-base {
+  @include _arrow-base;
 }
 
 
@@ -71,8 +71,8 @@
       } @else if type-of($val) == color {
         $_return: map-merge($_return, (color: $val));
       } @else if type-of($val) == string {
-        @if index(auto up down, $val) {
-          $return: map-merge($_return, (direction: $val));
+        @if index(auto up down forward backward, $val) {
+          $_return: map-merge($_return, (direction: $val));
         } @else {
           $_strings: append($_strings, $val);
         }
@@ -81,26 +81,19 @@
       }
     }
 
-    $i: 1;
-    @each $val in $_strings {
-      $_prop: if($i == 1, position, if($i == 2, direction, offset));
-      $return: map-merge($_return, ($_prop: $val));
-      $i: $i + 1;
-    }
-
-    @if length($_numbers) > 0 {
-      @if length($_numbers) > 1 {
-        $_return: map-merge($_return, (
-          offset: nth($_numbers,1),
-          size: nth($_numbers,2),
-        ));
-      } @else {
-        $_return: map-merge($_return, (
-          size: nth($_numbers, 1),
-        ));
+    @if $_strings {
+      $_return: map-merge($_return, (position: nth($_strings, 1)));
+      @if length($_strings) > 1 {
+        $_return: map-merge($_return, (offset: nth($_strings, 2)));
       }
     }
 
+    @if $_numbers {
+      $_return: map-merge($_return, (size: nth($_numbers, 1)));
+      @if length($_numbers) > 1 {
+        $_return: map-merge($_return, (offset: nth($_numbers, 2)));
+      }
+    }
   }
 
   @return $_return;
@@ -132,8 +125,8 @@
   $_border: null;
   $_body: (
     #{$_opposite}: 100%,
-    border-#{$_opposite}-color: $color,
-    border-width: $size,
+    border-#{$_opposite}-color: $_color,
+    border-width: $_size,
   );
 
   @if $_offset {
@@ -154,12 +147,11 @@
   }
 
   @if $_border-size and $_border-color {
-    $_border-ratio: 1.5; // 1.41421356 square root of 2, rounded a bit
 
     $_border: map-merge($_body, (
-      border-width: $_size + $_border-size * $_border-ratio,
       border-#{$_opposite}-color: $border-color,
       margin-#{$offset-position}: if($offset == 'center', 0 - $_border, 0 - $border-size * $border-ratio),
+      margin-#{$_opposite}: $_border-size,
     ));
   }
 

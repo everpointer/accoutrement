@@ -1,4 +1,4 @@
-accoutrement_stylesheets_path = File.expand_path(File.join(File.dirname(__FILE__), '..', 'sass'))
+accoutrement_stylesheets_path = File.expand_path(File.join(File.dirname(__FILE__), '..', 'stylesheets'))
 begin
   require 'compass'
   Compass::Frameworks.register('accoutrement', :stylesheets_directory => accoutrement_stylesheets_path)

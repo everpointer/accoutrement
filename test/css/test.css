@@ -45,3 +45,30 @@
     2 Tests:
     - 2 Passed
     - 0 Failed */
+/*  
+
+### fonts ------ */
+/*  - _parse-font-styles (2 Assertions, 2 Passed, 0 Failed) */
+/*  - _build-font-src (1 Assertions, 1 Passed, 0 Failed) */
+/*  
+    2 Tests:
+    - 2 Passed
+    - 0 Failed */
+/*  
+
+### colors ------ */
+/*  - color (2 Assertions, 2 Passed, 0 Failed) */
+/*  - _parse-color (4 Assertions, 4 Passed, 0 Failed) */
+/*  
+    2 Tests:
+    - 2 Passed
+    - 0 Failed */
+/*  
+
+### arrow ------ */
+/*  - _parse-arrow (2 Assertions, 2 Passed, 0 Failed) */
+/*  - FAIL: _build-arrow (0 Assertions, 0 Passed, 0 Failed) */
+/*  
+    2 Tests:
+    - 1 Passed
+    - 1 Failed */

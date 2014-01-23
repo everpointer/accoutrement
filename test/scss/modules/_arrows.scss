@@ -1,0 +1,33 @@
+// Arrow Tests
+// ===========
+
+// @@@ needs output tests...
+// - arrow
+// - _arrow-base
+
+@include test-module(arrow) {
+
+  // _parse-arrow
+  @include test(_parse-arrow) {
+    $test: _parse-arrow();
+    $expect: get(arrows);
+    @include assert-equal($test, $expect,
+      'Returns defaults if no arrow settings passed.');
+
+    $test: _parse-arrow(1em red up left -2em (border-color: blue));
+    $expect: map-merge(get(arrows), (
+      color: red,
+      direction: up,
+      position: left,
+      border-color: blue,
+      offset: -2em,
+    ));
+    @include assert-equal($test, $expect,
+      'Parses combined keywords and maps.');
+  }
+
+  // _build-arrow
+  @include test(_build-arrow) {
+
+  }
+}

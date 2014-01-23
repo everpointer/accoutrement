@@ -10,6 +10,9 @@
   darkest: -80%,
 ));
 
+$contrasted-dark-default  : black     !default;
+$contrasted-light-default : white     !default;
+
 
 // Color
 // -----
@@ -18,21 +21,52 @@
   $alpha: 1
 ) {
   $args: _parse-color($args);
-  $color: map-get($args, color);
-  $lightness: map-get($args, lightness);
-  $saturation: map-get($args, saturation);
+  $_color: map-get($args, color);
+  $_lightness: map-get($args, lightness);
+  $_saturation: map-get($args, saturation);
 
-  @if $lightness > 0 {
-    $color: tint($color, $lightness);
-  } @else if $lightness < 0 {
-    $color: shade($color, abs($lightness));
+  @if $_lightness {
+    @if $_lightness > 0 {
+      $_color: tint($_color, $_lightness);
+    } @else if $_lightness < 0 {
+      $_color: shade($_color, abs($_lightness));
+    }
   }
 
-  @if $saturation {
-    $color: scale-color($color, $saturation: $saturation);
+  @if $_saturation {
+    $_color: scale-color($_color, $saturation: $_saturation);
   }
 
-  @return rgba($color, $alpha);
+  @return rgba($_color, $alpha);
+}
+
+
+// Contrast
+// --------
+@function contrast(
+  $color,
+  $contrast: $contrasted-dark-default $contrasted-light-default
+) {
+  $contrasted-light: false;
+  $contrasted-dark: false;
+
+  @if length($contrast) == 2 {
+    $light1: brightness(nth($contrast,1));
+    $light2: brightness(nth($contrast,2));
+    $contrasted-light: if($light1 > $light2, nth($contrast,1), nth($contrast,2));
+    $contrasted-dark: if($light1 < $light2, nth($contrast,1), nth($contrast,2));
+  } @else {
+    @warn "Contrast takes two colors (light & dark) for the second argument.";
+  }
+
+  $color-brightness: brightness($color);
+  $light-contrast-brightness: brightness($contrasted-light);
+  $dark-contrast-brightness: brightness($contrasted-dark);
+
+  $light-diff: abs($color-brightness - $light-contrast-brightness);
+  $dark-diff: abs($color-brightness - $dark-contrast-brightness);
+
+  @return if($light-diff > $dark-diff, $contrasted-light, $contrasted-dark);
 }
 
 
@@ -41,33 +75,32 @@
 @function _parse-color(
   $args
 ) {
-  $color: hsl(0,0%,50%);
-  $lightness: 0;
-  $saturation: null;
-  $has-color: false;
+  $_has-color: false;
+  $_return: (
+    color: gray,
+    lightness: null,
+    saturation: null,
+  );
 
   @each $arg in $args {
     @if type-of($arg) == color {
-      $color: $arg;
-      $has-color: true;
+      $_return: map-merge($_return, (color: $arg));
+      $_has-color: true;
     }
 
     @else if type-of($arg) == number {
-      @if $has-color or length($args) == 1 {
-        $lightness: $arg;
+      @if $_has-color or length($args) == 1 {
+        $_return: map-merge($_return, (lightness: $arg));
       } @else {
-        $saturation: $arg;
+        $_return: map-merge($_return, (saturation: $arg));
       }
     }
 
     @else if type-of($arg) == string {
-      $lightness: get(color-keywords $arg);
+      $arg: get(color-keywords, $arg);
+      $_return: map-merge($_return, (lightness: $arg));
     }
   }
 
-  @return (
-    color: $color,
-    lightness: $lightness,
-    saturation: $saturation,
-  );
+  @return $_return;
 }

@@ -11,7 +11,7 @@
 // Tooltip
 // -------
 @mixin tooltip(
-  $pos: get(tooltips position)
+  $pos: get(tooltips, position)
 ) {
   $x: null;
   $y: null;
@@ -21,8 +21,8 @@
     $y: if($side == top or $side == bottom, $side, $y);
   }
 
-  #{get(tooltips content)} {
-    @extend #{'%tooltip' + if($y, '-#{$y}', null) + if($x, '-#{$x}', null)};
+  #{get(tooltips, content)} {
+    @extend #{'%tooltip' + if($y, '-#{$y}', '') + if($x, '-#{$x}', '')};
     @content;
   }
 }
@@ -31,24 +31,24 @@
 // Tooltips
 // --------
 @mixin tooltips {
-  #{get(tooltips container)} {
+  #{get(tooltips, container)} {
     display: inline-block;
     position: relative;
     text-decoration: none;
-    &:hover .tooltip-text {
+    &:hover #{get(tooltips, content)} {
       display: block;
       z-index: 900;
     }
   }
 
-  #{get(tooltips content)} {
+  #{get(tooltips, content)} {
     display: none;
     position: absolute;
     white-space: nowrap;
     pointer-events: none;
     @content;
 
-    &[data-tooltip] { @include after(attr(data-tooltip)); }
+    &[data-tooltip] { @include before(attr(data-tooltip)); }
   }
 }
 

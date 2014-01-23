@@ -43,19 +43,20 @@
 // Set a value deep in nested maps
 @function deep-set(
   $map,
-  $keys,
-  $value
+  $keys-value...
 ) {
-  $_length: length($keys);
+  $_value: nth($keys-value, -1);
+  $_keys: _truncate-list($keys-value, length($keys-value) - 1);
+  $_length: length($_keys);
   $_return: ();
 
   @for $i from 1 through $_length {
     $_n: 0 - $i;
-    $_level: _truncate-list($keys, $_length + $_n);
+    $_level: _truncate-list($_keys, $_length + $_n);
     $_level: deep-get($map, $_level...);
-    $_merge: (nth($keys, $_n): $value);
+    $_merge: (nth($_keys, $_n): $_value);
     $_return: if($_level, map-merge($_level, $_merge), $_merge);
-    $value: $_return;
+    $_value: $_return;
   }
 
   @return $_return;

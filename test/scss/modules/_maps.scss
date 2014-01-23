@@ -38,7 +38,7 @@
   // Deep Set
   // --------
   @include test('deep-set') {
-    $test: deep-set($map, one hello pizza, yum);
+    $test: deep-set($map, one, hello, pizza, yum);
     $expect: (
       one: (
         hello: (
@@ -52,7 +52,7 @@
     @include assert-equal($test, $expect,
       'Returns map with deep value adjusted.');
 
-    $test: deep-set($map, one monkey three, test);
+    $test: deep-set($map, one, monkey, three, test);
     $expect: (
       one: (
         hello: (

@@ -1,0 +1,41 @@
+// Font Tests
+// ==========
+
+@include test-module('fonts') {
+  // @@@ need output tests...
+  // - fonts
+  // - import-fonts
+  // - font-placeholders
+
+  // _parse-font-styles
+  @include test(_parse-font-styles) {
+    $test: _parse-font-styles(false);
+    $expect: (
+      weight: normal,
+      style: normal,
+    );
+    @include assert-equal($test, $expect,
+      'Missing weights and styles return as normal.');
+
+    $test: _parse-font-styles(300 italic);
+    $expect: (
+      weight: 300,
+      style: italic,
+    );
+    @include assert-equal($test, $expect,
+      'Explicit weights and styles are properly parsed.');
+  }
+
+  // _build-font-src
+  @include test(_build-font-src) {
+    $test: _build-font-src('myfonts/fake', woff ttf svg);
+    $expect: (
+      font-url('myfonts/fake.woff') format('woff'),
+      font-url('myfonts/fake.ttf') format('truetype'),
+      font-url('myfonts/fake.svg') format('svg'),
+    );
+    @include assert-equal($test, $expect,
+      'Returns collated font paths and formats for src attribute.');
+  }
+
+}

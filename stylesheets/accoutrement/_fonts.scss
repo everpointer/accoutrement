@@ -1,7 +1,7 @@
 // Fontface Tools
 // ==============
 
-@include set(fontface formats, woff ttf);
+@include set(fontface, formats, woff ttf);
 
 
 // Fonts
@@ -9,7 +9,7 @@
 // Establish fonts
 @mixin fonts(
   $fonts: get(fonts),
-  $formats: get(fontface formats)
+  $formats: get(fontface, formats)
 ) {
   @include import-fonts($fonts, $formats);
   @include font-placeholders($fonts);
@@ -21,7 +21,7 @@
 // Create font-face css
 @mixin import-fonts(
   $fonts: get(fonts),
-  $formats: get(fontface formats)
+  $formats: get(fontface, formats)
 ) {
   @each $font, $info in $fonts {
     $name: map-get($info, name) or $font;
@@ -71,12 +71,12 @@
 // Return src attribute based on path and formats
 @function _build-font-src(
   $path,
-  $formats: get(fontface formats)
+  $formats: get(fontface, formats)
 ) {
   $options: (
-    'woff': 'woff',
-    'ttf': 'truetype',
-    'svg': 'svg',
+    woff: 'woff',
+    ttf: 'truetype',
+    svg: 'svg',
   );
   $return: ();
 
