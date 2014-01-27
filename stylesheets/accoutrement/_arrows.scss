@@ -30,7 +30,7 @@
   }
 
   &::before {
-    @if $_border { @extend %arrow-base; }
+    @if $_border { @extend %_arrow-base; }
     @include output-map($_border);
   }
 }
@@ -149,8 +149,8 @@
   @if $_border-size and $_border-color {
 
     $_border: map-merge($_body, (
-      border-#{$_opposite}-color: $border-color,
-      margin-#{$offset-position}: if($offset == 'center', 0 - $_border, 0 - $border-size * $border-ratio),
+      border-#{$_opposite}-color: $_border-color,
+      margin-#{$_offset-position}: if($_offset == center, 0 - $_size, null),
       margin-#{$_opposite}: $_border-size,
     ));
   }
