@@ -81,14 +81,14 @@
       }
     }
 
-    @if $_strings {
+    @if length($_strings) > 0 {
       $_return: map-merge($_return, (position: nth($_strings, 1)));
       @if length($_strings) > 1 {
         $_return: map-merge($_return, (offset: nth($_strings, 2)));
       }
     }
 
-    @if $_numbers {
+    @if length($_numbers) > 0 {
       $_return: map-merge($_return, (size: nth($_numbers, 1)));
       @if length($_numbers) > 1 {
         $_return: map-merge($_return, (offset: nth($_numbers, 2)));
