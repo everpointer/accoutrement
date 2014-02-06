@@ -2,38 +2,11 @@
 // ======
 
 @include set(arrows, (
-  position: top,
-  offset: center,
-  direction: auto,
+  direction: down,
   size: 1em,
+  spread: auto,
   color: black,
-  border-width: null,
-  border-color: null,
 ));
-
-
-// Arrow
-// -----
-@mixin arrow(
-  $arrow: get(arrows),
-  $root: relative
-) {
-  $arrow: _build-arrow($arrow);
-  $_body: map-get($arrow, body);
-  $_border: map-get($arrow, border);
-
-  position: $root;
-
-  &::after {
-    @extend %_arrow-base;
-    @include output-map($_body);
-  }
-
-  &::before {
-    @if $_border { @extend %_arrow-base; }
-    @include output-map($_border);
-  }
-}
 
 
 // Arrow Base
@@ -52,6 +25,30 @@
 }
 
 
+// Arrow
+// -----
+@mixin arrow(
+  $arrow: get(arrows),
+  $place: before,
+  $extend: true,
+  $root: relative
+) {
+  $arrow: _build-arrow($arrow);
+
+  position: $root;
+
+  &#{'::' + $place} {
+    @if $extend {
+      @extend %_arrow-base;
+    } @else {
+      @include _arrow-base;
+    }
+    @include output-map($arrow);
+    @content;
+  }
+}
+
+
 // Parse Arrow
 // -----------
 @function _parse-arrow(
@@ -59,7 +56,6 @@
 ) {
   $_return: get(arrows);
   $_numbers: ();
-  $_strings: ();
 
   @if type-of($arrow) == map {
     $_return: map-merge($_return, $arrow);
@@ -71,27 +67,20 @@
       } @else if type-of($val) == color {
         $_return: map-merge($_return, (color: $val));
       } @else if type-of($val) == string {
-        @if index(auto up down forward backward, $val) {
+        @if index(up down left right, $val) {
           $_return: map-merge($_return, (direction: $val));
-        } @else {
-          $_strings: append($_strings, $val);
+        } @else if $val == auto {
+          $_return: map-merge($_return, (spread: $val));
         }
       } @else if type-of($val) == number {
         $_numbers: append($_numbers, $val);
       }
     }
 
-    @if length($_strings) > 0 {
-      $_return: map-merge($_return, (position: nth($_strings, 1)));
-      @if length($_strings) > 1 {
-        $_return: map-merge($_return, (offset: nth($_strings, 2)));
-      }
-    }
-
     @if length($_numbers) > 0 {
       $_return: map-merge($_return, (size: nth($_numbers, 1)));
       @if length($_numbers) > 1 {
-        $_return: map-merge($_return, (offset: nth($_numbers, 2)));
+        $_return: map-merge($_return, (spread: nth($_numbers, 2)));
       }
     }
   }
@@ -106,57 +95,23 @@
   $arrow
 ) {
   $arrow: _parse-arrow($arrow);
-  $_position: map-get($arrow, position);
-  $_offset: map-get($arrow, offset);
   $_color: map-get($arrow, color);
   $_size: map-get($arrow, size);
-  $_border-color: map-get($arrow, border-color);
-  $_border-size: map-get($arrow, border-width);
-  $_opposite: opposite-position($_position);
+  $_spread: map-get($arrow, spread);
+  $_direction: map-get($arrow, direction);
+  $_direction: if($_direction == up, top, if($_direction == down, bottom, $_direction));
+  $_opposite: opposite-position($_direction);
 
-  $_offset-position: if($_position == left or $_position == right, top, left);
+  $_return: (border-#{$_opposite}: $_size solid $_color);
 
-  @if $_offset == 'bottom' or $_offset == 'right' {
-    $_offset-position: opposite-position($_offset-position);
-  } @else if type-of($_offset) == "number" and $_offset != abs($_offset) {
-    $_offset-position: opposite-position($_offset-position);
+  $_h: left right;
+  $_v: top bottom;
+  $_sides: if(index($_h, $_direction), $_v, $_h);
+  $_spread: if($_spread == auto, $_size, $_spread / 2);
+
+  @each $_side in $_sides {
+    $_return: map-merge($_return, (border-#{$_side}-width: $_spread));
   }
 
-  $_border: null;
-  $_body: (
-    #{$_opposite}: 100%,
-    border-#{$_opposite}-color: $_color,
-    border-width: $_size,
-  );
-
-  @if $_offset {
-    @if $_offset == 'center' {
-      $_body: map-merge($_body, (
-        #{$_offset-position}: 50%,
-        margin-#{$_offset-position}: - $_size,
-      ));
-    } @else if type-of($_offset) == 'string' {
-      $_body: map-merge($_body, (
-        #{$_offset-position}: 0,
-      ));
-    } @else {
-      $_body: map-merge($_body, (
-        #{$_offset-position}: abs($_offset),
-      ));
-    }
-  }
-
-  @if $_border-size and $_border-color {
-
-    $_border: map-merge($_body, (
-      border-#{$_opposite}-color: $_border-color,
-      margin-#{$_offset-position}: if($_offset == center, 0 - $_size, null),
-      margin-#{$_opposite}: $_border-size,
-    ));
-  }
-
-  @return (
-    body: $_body,
-    border: $_border,
-  );
+  @return $_return;
 }
