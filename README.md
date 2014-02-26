@@ -12,7 +12,7 @@ Don't upgrade unless you're willing to use new things in new ways.
 License
 -------
 
-Copyright © Eric Meyer.
+Copyright © Eric M. Suzanne
 
 Original code licensed under MIT/GLPv2
 Open Source projects used within this project retain their original licenses.
