@@ -12,33 +12,43 @@
 // Fluid Ratio
 // -----------
 @mixin fluid-ratio(
-  $args
+  $args: get(fluid-media)
 ) {
-  $_ratio: get(fluid-media ratio);
-  $_width: get(fluid-media width);
-  $_children: get(fluid-media children);
+  $_map: ();
 
-  @each $arg in $args {
-    @if type-of($arg) == string {
-      $_children: $arg;
-    } @else if type-of($arg) == number {
-      @if unitless($arg) {
-        $_ratio: $arg;
-      } @else {
-        $_width: $arg;
+  @if type-of($args) == map {
+    $_map: $args;
+  } @else {
+    @each $arg in $args {
+      @if type-of($arg) == map {
+        $_map: map-merge($_map, $arg);
+      } @else if type-of($arg) == string {
+        $_map: map-merge($_map, (children: $arg));
+      } @else if type-of($arg) == number {
+        @if unitless($arg) {
+          $_map: map-merge($_map, (ratio: $arg));
+        } @else {
+          $_map: map-merge($_map, (width: $arg));
+        }
       }
     }
   }
+
+  $_ratio: map-get($_map, ratio);
+  $_width: map-get($_map, width);
+  $_children: map-get($_map, children);
 
   position: relative;
   height: 0;
   padding-top: (1 / $_ratio) * $_width;
   width: $_width;
 
-  @if $children {
-    > #{$children} {
+  @if $_children {
+    > #{$_children} {
       display: block;
       position: absolute;
+      height: 100%;
+      width: 100%;
       top: 0;
       right: 0;
       bottom: 0;
