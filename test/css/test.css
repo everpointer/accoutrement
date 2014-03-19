@@ -39,11 +39,12 @@
 /*  
 
 ### fonts ------ */
+/*  - _get-font-face (1 Assertions, 1 Passed, 0 Failed) */
 /*  - _parse-font-styles (2 Assertions, 2 Passed, 0 Failed) */
 /*  - _build-font-src (1 Assertions, 1 Passed, 0 Failed) */
 /*  
-    2 Tests:
-    - 2 Passed
+    3 Tests:
+    - 3 Passed
     - 0 Failed */
 /*  
 

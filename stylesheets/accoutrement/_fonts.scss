@@ -37,9 +37,25 @@
 }
 
 
-// Get Fonts
-// ---------
-// Return a list of font-face output maps
+// Font Placeholders
+// -----------------
+// Create font-family placeholders
+@mixin font-placeholders(
+  $fonts: get(fonts)
+) {
+  $_output: _get-font-placeholders($fonts);
+
+  @each $font, $map in $_output {
+    #{$font} {
+      @include output-map($map);
+    }
+  }
+}
+
+
+// Get Font Face
+// -------------
+// PRIVATE: Return a list of font-face output maps
 @function _get-font-face(
   $fonts: get(fonts),
   $formats: get(fontface, formats)
@@ -76,7 +92,7 @@
 
 // Interpolate Font Files
 // ----------------------
-// Return font files based on path/style interpolation
+// PRIVATE: Return font files based on path/style interpolation
 @function _interpolate-font-files(
   $path,
   $variants: regular
@@ -114,7 +130,7 @@
 
 // Parse Font Styles
 // -----------------
-// Return font weight and style based on shorthand syntax
+// PRIVATE: Return font weight and style based on shorthand syntax
 @function _parse-font-styles(
   $face
 ) {
@@ -139,7 +155,7 @@
 
 // Build Font SRC
 // --------------
-// Return src attribute based on path and formats
+// PRIVATE: Return src attribute based on path and formats
 @function _build-font-src(
   $path,
   $formats: get(fontface, formats)
@@ -165,7 +181,7 @@
 
 // Get Font Placeholders
 // ---------------------
-// Return a list of font-placeholder maps ready for output
+// PRIVATE: Return a list of font-placeholder maps ready for output
 @function _get-font-placeholders(
   $fonts: get(fonts)
 ) {
@@ -185,20 +201,4 @@
   }
 
   @return $_return;
-}
-
-
-// Font Placeholders
-// -----------------
-// Create font-family placeholders
-@mixin font-placeholders(
-  $fonts: get(fonts)
-) {
-  $_output: _get-font-placeholders($fonts);
-
-  @each $font, $map in $_output {
-    #{$font} {
-      @include output-map($map);
-    }
-  }
 }

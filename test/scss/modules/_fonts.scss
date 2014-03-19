@@ -3,9 +3,40 @@
 
 @include test-module('fonts') {
   // @@@ need tests...
-  // - _get-font-face
   // - _interpolate-font-files
   // - _get-font-placeholders
+
+  // _get-font-face
+  @include test(_get-font-face) {
+    $fake: ( fake: (
+      name: FakeFont,
+      path: 'myfonts/fake-%s%s-webfont',
+      styles: regular,
+      files: (
+        bold italic: 'myfonts/fake-bolditalic-webfont'
+      ),
+    ));
+    $test: _get-font-face($fake);
+    $expect: (
+      font-family: "FakeFont",
+      src: (
+        font-url('myfonts/fake-regular-webfont.woff') format('woff'),
+        font-url('myfonts/fake-regular-webfont.ttf') format('truetype'),
+      ),
+      font-weight: normal,
+      font-style: normal,
+    ) (
+      font-family: "FakeFont",
+      src: (
+        font-url('myfonts/fake-bolditalic-webfont.woff') format('woff'),
+        font-url('myfonts/fake-bolditalic-webfont.ttf') format('truetype'),
+      ),
+      font-weight: bold,
+      font-style: italic,
+    );
+    @include assert-equal($test, $expect,
+      'Returns font-face-ready output from interpolation and explicit files.');
+  }
 
   // _parse-font-styles
   @include test(_parse-font-styles) {
