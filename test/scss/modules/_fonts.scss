@@ -2,10 +2,10 @@
 // ==========
 
 @include test-module('fonts') {
-  // @@@ need output tests...
-  // - fonts
-  // - import-fonts
-  // - font-placeholders
+  // @@@ need tests...
+  // - _get-font-face
+  // - _interpolate-font-files
+  // - _get-font-placeholders
 
   // _parse-font-styles
   @include test(_parse-font-styles) {
@@ -28,14 +28,13 @@
 
   // _build-font-src
   @include test(_build-font-src) {
-    $test: _build-font-src('myfonts/fake', woff ttf svg);
+    $test: _build-font-src('myfonts/fake-regular-webfont', woff ttf svg);
     $expect: (
-      font-url('myfonts/fake.woff') format('woff'),
-      font-url('myfonts/fake.ttf') format('truetype'),
-      font-url('myfonts/fake.svg') format('svg'),
+      font-url('myfonts/fake-regular-webfont.woff') format('woff'),
+      font-url('myfonts/fake-regular-webfont.ttf') format('truetype'),
+      font-url('myfonts/fake-regular-webfont.svg') format('svg'),
     );
     @include assert-equal($test, $expect,
       'Returns collated font paths and formats for src attribute.');
   }
-
 }
