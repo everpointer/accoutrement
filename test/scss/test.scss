@@ -5,10 +5,16 @@
 @import "accoutrement";
 
 
+// Sass Extensions
+// ---------------
+
+@import "modules/maps";
+@import "modules/strings";
+
+
 // Utilities
 // ---------
 
-@import "modules/maps";
 @import "modules/settings";
 @import 'modules/scale';
 @import 'modules/fonts';

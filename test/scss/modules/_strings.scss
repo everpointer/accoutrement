@@ -1,0 +1,21 @@
+// String Tests
+// ==============
+
+@include test-module('Strings') {
+
+  // str-replace
+  @include test('str-replace') {
+    $test: str-replace('hello terrible world!', 'terrible', 'beautiful');
+    $expect: 'hello beautiful world!';
+    @include assert-equal($test, $expect,
+      'Substring should be replaced within larger string');
+  }
+
+  // interpolate
+  @include test('interpolate') {
+    $test: interpolate('hello %s%s', 'world', '!');
+    $expect: 'hello world!';
+    @include assert-equal($test, $expect,
+      'All format strings should be replaced by interpolation values.');
+  }
+}

@@ -11,6 +11,15 @@
     - 0 Failed */
 /*  
 
+### Strings ------ */
+/*  - str-replace (1 Assertions, 1 Passed, 0 Failed) */
+/*  - interpolate (1 Assertions, 1 Passed, 0 Failed) */
+/*  
+    2 Tests:
+    - 2 Passed
+    - 0 Failed */
+/*  
+
 ### Settings ------ */
 /*  - set (2 Assertions, 2 Passed, 0 Failed) */
 /*  - get (1 Assertions, 1 Passed, 0 Failed) */
