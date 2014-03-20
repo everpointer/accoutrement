@@ -190,7 +190,7 @@
   @each $font, $info in $fonts {
     $_name: map-get($info, name) or $font;
     $_type: map-get($info, type);
-    $_stack: append($_name, map-get($info, stack) or (), comma);
+    $_stack: join($_name, map-get($info, stack) or (), comma);
     $_stack: append($_stack, $_type, comma);
 
     @if $_type == monospace {

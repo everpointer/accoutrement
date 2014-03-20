@@ -40,11 +40,13 @@
 
 ### fonts ------ */
 /*  - _get-font-face (1 Assertions, 1 Passed, 0 Failed) */
+/*  - _interpolate-font-files (1 Assertions, 1 Passed, 0 Failed) */
+/*  - _get-font-placeholders (1 Assertions, 1 Passed, 0 Failed) */
 /*  - _parse-font-styles (2 Assertions, 2 Passed, 0 Failed) */
 /*  - _build-font-src (1 Assertions, 1 Passed, 0 Failed) */
 /*  
-    3 Tests:
-    - 3 Passed
+    5 Tests:
+    - 5 Passed
     - 0 Failed */
 /*  
 
