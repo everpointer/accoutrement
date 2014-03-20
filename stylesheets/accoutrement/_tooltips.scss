@@ -5,12 +5,31 @@
   position: top right,
   container: '.tooltip',
   content: '.tooltip-text',
+  hide: (
+    display: none,
+  ),
+  show: (
+    display: block,
+    z-index: 900,
+  ),
 ));
 
 
 // Tooltip
 // -------
 @mixin tooltip(
+  $pos: get(tooltips, position)
+) {
+  $extends: _tooltip($pos);
+
+  #{get(tooltips, content)} {
+    @extend #{$extends};
+    @content;
+  }
+}
+
+
+@function _tooltip(
   $pos: get(tooltips, position)
 ) {
   $x: null;
@@ -21,10 +40,9 @@
     $y: if($side == top or $side == bottom, $side, $y);
   }
 
-  #{get(tooltips, content)} {
-    @extend #{'%tooltip' + if($y, '-#{$y}', '') + if($x, '-#{$x}', '')};
-    @content;
-  }
+  $extends: '%tooltip' + if($y, '-#{$y}', '') + if($x, '-#{$x}', '');
+
+  @return $extends;
 }
 
 
@@ -36,13 +54,12 @@
     position: relative;
     text-decoration: none;
     &:hover #{get(tooltips, content)} {
-      display: block;
-      z-index: 900;
+      @include output-map(get(tooltips, show));
     }
   }
 
   #{get(tooltips, content)} {
-    display: none;
+    @include output-map(get(tooltips, hide));
     position: absolute;
     white-space: nowrap;
     pointer-events: none;

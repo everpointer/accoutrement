@@ -1,4 +1,12 @@
 // Tooltip Tests
 // =============
 
-// @@@ needs output tests...
+@include test-module(tooltips) {
+  // tooltip [function]
+  @include test(_tooltip) {
+    $test: _tooltip(top right);
+    $expect: '%tooltip-top-right';
+    @include assert-equal($test, $expect,
+      'Returns the correct placeholder to extend.');
+  }
+}
