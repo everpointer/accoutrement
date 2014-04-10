@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "accoutrement", "--main", "README.md"]
 
   dependencies = {
-    "sass"    => "~> 3.3.0.rc.1",
+    "sass"    => "~> 3.3",
     "compass" => "~> 1.0.0.alpha.17"
   }
   # Project Dependencies
