@@ -9,6 +9,11 @@
     $expect: 24px;
     @include assert-equal($test, $expect,
       'Returns a length based on a multiplier.');
+
+    $test: size(82px);
+    $expect: 82px;
+    @include assert-equal($test, $expect,
+      'Returns an explicit length directly.');
   }
 
   // _get-font-sizes

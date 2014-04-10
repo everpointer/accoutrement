@@ -40,6 +40,8 @@
   $root: $base-font-size,
   $ratio: get(ratio)
 ) {
+  $_return: $multiplier;
+
   @if type-of($multiplier) == string {
     $multiplier: get(scale, $multiplier);
   }
@@ -48,7 +50,11 @@
     $ratio: get(ratio-options, $ratio);
   }
 
-  @return round($root * pow($ratio, $multiplier));
+  @if unit($multiplier) == '' {
+    $_return: round($root * pow($ratio, $multiplier));
+  }
+
+  @return $_return;
 }
 
 

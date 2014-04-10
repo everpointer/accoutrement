@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    accoutrement (0.1.8)
+    accoutrement (0.1.9)
       compass (~> 1.0.0.alpha.17)
       sass (~> 3.3.0.rc.1)
 
